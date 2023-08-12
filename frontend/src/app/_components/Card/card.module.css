@@ -1,0 +1,24 @@
+.coverImage {
+  width: 100%;
+}
+.title {
+  padding-top: 0.5rem;
+  padding-bottom: 0;
+}
+.cardContent {
+  padding: 0 0.7rem;
+}
+.cardFooter {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.discountRate {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff406e;
+}
+.price {
+  font-weight: bold;
+}
