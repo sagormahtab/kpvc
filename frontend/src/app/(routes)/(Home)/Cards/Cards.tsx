@@ -7,18 +7,29 @@ import useSWR from "swr";
 import { Card } from "@/app/_components/Card";
 import style from "./cards.module.css";
 
+interface IBook {
+  title: string;
+  description: string;
+  discountRate: number;
+  coverImage: string;
+  price: number;
+}
+
 export const Cards = () => {
   const apiUrl = "https://kpvc-backend.onrender.com/books";
-  const { data: items, error, isLoading, mutate } = useSWR(apiUrl, fetcher);
+  const { data: items, isLoading, mutate } = useSWR<IBook[]>(apiUrl, fetcher);
 
-  const fetchMoreData = async () => {
+  const fetchMoreData = async (refresh: boolean = false) => {
     const newData = await fetcher(apiUrl);
-    mutate([...items, ...newData], false);
+    if (Array.isArray(items) && !refresh) {
+      mutate([...items, ...newData], false);
+    } else {
+      mutate([...newData]);
+    }
   };
 
   const handleRefresh = () => {
-    mutate([]);
-    fetchMoreData();
+    fetchMoreData(true);
   };
 
   return (
@@ -28,7 +39,7 @@ export const Cards = () => {
       ) : (
         <InfiniteScroll
           next={fetchMoreData}
-          dataLength={items.length}
+          dataLength={Array.isArray(items) ? items.length : [].length}
           hasMore={true}
           scrollThreshold={0.8}
           loader={<h4>Loading...</h4>}
@@ -50,9 +61,10 @@ export const Cards = () => {
           }
         >
           <div className={style.container}>
-            {items.map((item: Object, index: number) => (
-              <Card key={index} />
-            ))}
+            {Array.isArray(items) &&
+              items.map((item: IBook, index: number) => (
+                <Card key={index} data={item} />
+              ))}
           </div>
         </InfiniteScroll>
       )}
