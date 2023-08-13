@@ -25,7 +25,7 @@ export const Card = (props: _ICardProps) => {
       <div className={cardStyle.cardContent}>
         <h4 className={cardStyle.title}>{props.data.title}</h4>
         <div className={cardStyle.cardFooter}>
-          <p className={cardStyle.discountRate}>{props.data.discountRate}</p>
+          <p className={cardStyle.discountRate}>{props.data.discountRate}%</p>
           <p className={cardStyle.price}>{formatMoney(props.data.price)} 원</p>
         </div>
       </div>
